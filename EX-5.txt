@@ -1,0 +1,49 @@
+﻿EX-5
+1) learningCurve
+%DIMENSIONS:
+  %   error_train = m x 1
+  %   error_val   = m x 1 
+
+  for i = 1:m
+      Xtrain = X(1:i,:);
+      ytrain = y(1:i);
+
+      theta = trainLinearReg(Xtrain, ytrain, lambda);
+
+      error_train(i) = linearRegCostFunction(Xtrain, ytrain, theta, 0); %for lambda = 0;
+      error_val(i)   = linearRegCostFunction(Xval, yval, theta, 0); %for lambda = 0;
+  end
+
+2) linearRegCostFunction
+%DIMENSIONS:
+  %   X = 12x2 = m x 1
+  %   y = 12x1 = m x 1
+  %   theta = 2x1 = (n+1) x 1
+  %   grad = 2x1 = (n+1) x 1
+
+  h_x = X * theta; % 12x1
+  J = (1/(2*m))*sum((h_x - y).^2) + (lambda/(2*m))*sum(theta(2:end).^2); % scalar
+
+  % grad(1) = (1/m)*sum((h_x-y).*X(:,1)); % scalar == 1x1
+  grad(1) = (1/m)*(X(:,1)'*(h_x-y)); % scalar == 1x1
+  grad(2:end) = (1/m)*(X(:,2:end)'*(h_x-y)) + (lambda/m)*theta(2:end); % n x 1
+
+3) polyFeature
+for i = 1:p
+  X_poly(:,i) = X.^i;
+End
+
+4) validationCurve
+for i = 1:length(lambda_vec)
+  lambda = lambda_vec(i);
+  theta_train = trainLinearReg(X, y, lambda);
+  [J_train, grad] = linearRegCostFunction(X, y, theta_train, 0);
+  error_train(i) = J_train;
+
+  %theta_val = trainLinearReg(Xval, yval, lambda);
+  [J_val, grad] = linearRegCostFunction(Xval, yval, theta_train, 0);
+  error_val(i) = J_val;
+
+end
+
+
