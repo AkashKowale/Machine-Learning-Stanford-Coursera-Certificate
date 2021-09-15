@@ -1,0 +1,19 @@
+﻿
+EX-1
+1) computecost
+J  = (1/(2*m))*(sum(((X*theta)-y).^2))
+
+2) gradientDescent
+theta = theta - (1/m)*(alpha)*(X')*(X*theta-y);
+
+3) plotData
+data = load('ex1data1.txt');
+X = data(:,1);
+y =data(:,2);
+plot(X,y,'rx','MarkerSpace',10);
+xlabel('Profit in $10,000s');
+ylabel('Population of city in 10,000s');
+
+4) warmupex
+A = eye(5);
+
